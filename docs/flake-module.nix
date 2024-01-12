@@ -1,5 +1,7 @@
 {
   perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
+    checks = config.packages;
+
     packages.docs = pkgs.buildNpmPackage {
       pname = "docs";
       version = "0.1.0";

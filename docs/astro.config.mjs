@@ -3,18 +3,20 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://kolloch.github.io',
+	base: '/astro-starlight-with-nix',
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'Astro Starlight with Nix',
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/kolloch/astro-starlight-with-nix',
 			},
 			sidebar: [
 				{
 					label: 'Guides',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', link: '/guides/example/' },
+						{ label: 'Example Guide', link: '/astro-starlight-with-nix/guides/example/' },
 					],
 				},
 				{
