@@ -4,12 +4,13 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://kolloch.github.io',
-	base: '/astro-starlight-with-nix',
+	base: '/n2c-mod',
 	integrations: [
 		starlight({
-			title: 'Astro Starlight with Nix',
+			title: 'n2c-mod',
+			description: 'A flake module for nix2container.',
 			social: {
-				github: 'https://github.com/kolloch/astro-starlight-with-nix',
+				github: 'https://github.com/kolloch/n2c-mod',
 			},
 			sidebar: [
 				{
