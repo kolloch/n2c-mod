@@ -1,4 +1,6 @@
-# Astro Starlight with Nix
+# n2c-mod
 
-This is a little demo for a blog article
-hosting a Starlight GitHub page.
+A [flake module](https://flake.parts/) for
+[nix2container](https://github.com/nlewo/nix2container).
+
+Status: Barely existing.
