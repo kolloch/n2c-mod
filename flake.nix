@@ -32,7 +32,7 @@
         ./flake-modules/module-docs.nix
         ./docs/flake-module.nix
         exportedModule.default
-        ./flake-modules/exported/n2c-test.nix
+        ./flake-modules/n2c-export-json.nix
       ];
 
       debug = true;
