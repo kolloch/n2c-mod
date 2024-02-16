@@ -56,6 +56,5 @@ in
     });
   };
 
-
   config.transposition.n2c = {};
 }

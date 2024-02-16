@@ -40,6 +40,7 @@
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/n2c-export-json.nix
+        ./flake-modules/examples/bash.nix
         ./flake-modules/examples/basic.nix
       ];
 

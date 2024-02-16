@@ -17,6 +17,14 @@ let
       type = lib.types.nullOr (
         lib.types.listOf lib.types.str
       );
+      default = null;
+    };
+
+    cmd = lib.mkOption {
+      type = lib.types.nullOr (
+        lib.types.listOf lib.types.str
+      );
+      default = null;
     };
   };
 in {
@@ -31,22 +39,37 @@ in {
 
     result = lib.mkOption {
       type = lib.types.package;
-      description = "The result of nix2container.buildImage -- the resulting image.";
+      description = ''
+        The JSON descriptor for the resulting image -
+        the return value of the `nix2container.buildImage`.
+      '';
     };
 
     imageConfig = lib.mkOption {
       type = lib.types.submodule imageConfig;
+      description = ''The OCI image config.'';
+    };
+
+    copyToRoot = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      description = ''
+        A list of derivations copied in the image root directory.
+        
+        Store path prefixes /nix/store/hash-path are removed, in order to relocate them at the image /.
+      '';
+      default = [];
     };
   };
 
   config = {
     result = nix2container.packages.${imageSystem}.nix2container.buildImage {
-      inherit (config) name;
+      inherit (config) name copyToRoot;
       config = config.imageConfig.raw;
     };
 
     imageConfig.raw = {
       entrypoint = config.imageConfig.entrypoint;
+      cmd = config.imageConfig.cmd;
     };
   };
 }
