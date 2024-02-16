@@ -42,17 +42,22 @@
       systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
 
       imports = [
+        inputs.flake-parts.flakeModules.flakeModules
+
         ./flake-modules/nodejs-packages.nix
         ./flake-modules/nodejs-devshell.nix
         ./flake-modules/module-docs.nix
-        ./flake-modules/nix-dev.nix
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/n2c-export-json.nix
-        ./flake-modules/examples/bash.nix
-        ./flake-modules/examples/basic.nix
+
+        # Shared with example template
+        ./template/flake-modules/nix-dev.nix
+        ./template/flake-modules/images/default.nix
       ];
 
       debug = true;
+
+      flake.flakeModules = exportedModule;
     });
 }

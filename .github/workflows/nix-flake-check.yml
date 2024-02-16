@@ -15,3 +15,6 @@ jobs:
         - uses: DeterminateSystems/nix-installer-action@main
         - uses: DeterminateSystems/magic-nix-cache-action@main
         - run: 'nix flake check -L'
+        - run: |
+            cd template
+            nix flake check -L --override-input n2c-mod ./.. 

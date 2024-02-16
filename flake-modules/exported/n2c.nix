@@ -16,9 +16,9 @@
 
   config.perSystem = {
     pkgs,
-    inputs',
+    system,
     ...
   }: {
-    packages.skopeo-nix2container = inputs'.nix2container.packages.skopeo-nix2container;
+    packages.skopeo-nix2container = nix2container.packages.${system}.skopeo-nix2container;
   };
 }
