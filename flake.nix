@@ -14,6 +14,11 @@
 
     # Development
 
+    pre-commit-hooks-nix = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +31,7 @@
     flake-parts,
     devshell,
     nix2container,
+    pre-commit-hooks-nix,
   }:
     flake-parts.lib.mkFlake {inherit inputs;} ({
       withSystem,
@@ -47,6 +53,7 @@
         ./flake-modules/nodejs-packages.nix
         ./flake-modules/nodejs-devshell.nix
         ./flake-modules/module-docs.nix
+        ./flake-modules/pre-commit.nix
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/n2c-export-json.nix

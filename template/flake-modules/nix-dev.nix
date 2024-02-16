@@ -3,7 +3,11 @@
     inputs.devshell.flakeModule
   ];
 
-  perSystem = {pkgs, config, ...}: {
+  perSystem = {
+    pkgs,
+    config,
+    ...
+  }: {
     formatter = pkgs.alejandra;
 
     devshells.default = {

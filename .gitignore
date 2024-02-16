@@ -2,3 +2,5 @@
 
 # nix build results
 result*
+
+.pre-commit-config.yaml
