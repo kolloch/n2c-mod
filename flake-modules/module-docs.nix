@@ -34,7 +34,7 @@ in {
             let 
               rewrittenSource = opt // { declarations = map rewriteSource opt.declarations; };
             in 
-              opt // {
+              rewrittenSource // {
                 visible = builtins.any (p: lib.hasPrefix p opt.name) [ "perSystem.n2c" "flake.n2c" ];
               };
           options = pkgs.nixosOptionsDoc {
