@@ -7,6 +7,11 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    nix2container = {
+      url = "github:nlewo/nix2container";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
     # Development
 
     devshell = {
@@ -15,13 +20,15 @@
     };
   };
   
-  outputs = inputs@{ self, nixpkgs, flake-parts, devshell }: 
+  outputs = inputs@{ self, nixpkgs, flake-parts, devshell, nix2container }: 
     flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }:
     let
       exportedModule.default = 
         flake-parts-lib.importApply 
           ./flake-modules/exported/n2c.nix 
-          { inherit withSystem; };
+          { 
+            inherit withSystem nix2container; 
+          };
     in 
     {
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
@@ -33,6 +40,7 @@
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/n2c-export-json.nix
+        ./flake-modules/examples/basic.nix
       ];
 
       debug = true;

@@ -1,17 +1,11 @@
-{ ...}:
-{ flake-parts-lib, lib, ...}:
-flake-parts-lib.mkTransposedPerSystemModule {
-  name = "n2c";
-  option = lib.mkOption {
-    type = lib.types.attrsOf (
-      lib.types.submoduleWith {
-        modules = [
-          ./per-container/basic-build.nix
-        ];
-      }
-    );
-    description = "OCI container by name build with nix2container";
-    default = { };
+{ nix2container, ... }:
+{ lib, system, ...}@args:
+{
+  imports = [
+    ./n2c-base.nix
+    ./n2c-checkAll.nix
+  ];
+  config._module.args = {
+    inherit nix2container;
   };
-  file = ./n2c.nix;
 }

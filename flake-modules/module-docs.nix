@@ -7,7 +7,7 @@ let
      };
     } {
     imports = [
-      (import ./exported/n2c.nix {})
+      (import ./exported/n2c.nix { nix2container = inputs.nix2container; })
     ];
   };
 in {
