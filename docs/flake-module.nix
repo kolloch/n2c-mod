@@ -1,6 +1,25 @@
-{
+{pkgs, ...}: {
   perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
     checks = config.packages;
+
+    packages.docs-src = let 
+        cleanedSource = pkgs.nix-gitignore.gitignoreSource [] ./.;
+        frontMatter = ''
+        ---
+        title: Options Reference
+        ---
+        '';
+      in pkgs.runCommand "docs-src" {} ''
+          set -x
+          mkdir -p "$out/src/content/docs/reference"
+          cp -vR ${cleanedSource}/* $out
+          find $out
+          md="$out/src/content/docs/reference/options.md"
+          {
+            echo ${lib.escapeShellArg frontMatter}
+            cat ${config.packages.module-docs-md}
+          } >$md
+        '';
 
     packages.docs = pkgs.buildNpmPackage {
       pname = "docs";
@@ -8,7 +27,7 @@
 
       inherit (config.packages) nodejs;
 
-      src = ./.;
+      src = config.packages.docs-src;
 
       buildInputs = [
         pkgs.vips

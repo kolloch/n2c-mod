@@ -12,8 +12,8 @@ let
   };
 in {
   perSystem = { pkgs, config, ...}: {
-    checks.modules-docs = config.packages.module-docs; 
-    packages.module-docs =
+    checks.modules-docs = config.packages.module-docs-md;
+    packages.module-docs-md =
         let
           sources = [
             { name = "${self}"; url = "https://github.com/kolloch/n2c-mod/blob/main"; }
@@ -30,14 +30,19 @@ in {
               url = "${source.url}${path}";
             in
             { name = url; url = url; };
+          transformOptions = opt:
+            let 
+              rewrittenSource = opt // { declarations = map rewriteSource opt.declarations; };
+            in 
+              opt // {
+                visible = builtins.any (p: lib.hasPrefix p opt.name) [ "perSystem.n2c" "flake.n2c" ];
+              };
           options = pkgs.nixosOptionsDoc {
             options = builtins.removeAttrs eval.options [ "_module" ];
 
             warningsAreErrors = false;
 
-            transformOptions = opt: (
-              opt // { declarations = map rewriteSource opt.declarations; }
-            );
+            inherit transformOptions;
           };
         in
         options.optionsCommonMark;
