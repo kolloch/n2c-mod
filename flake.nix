@@ -9,6 +9,7 @@
 
     nix2container = {
       url = "github:nlewo/nix2container";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
     # Development
