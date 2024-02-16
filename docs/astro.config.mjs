@@ -12,6 +12,9 @@ export default defineConfig({
 			social: {
 				github: 'https://github.com/kolloch/n2c-mod',
 			},
+			editLink: {
+				baseUrl: 'https://github.com/kolloch/n2c-mod/edit/master/docs/',
+			},
 			sidebar: [
 				{
 					label: 'Guides',
