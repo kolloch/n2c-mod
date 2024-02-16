@@ -1,4 +1,4 @@
-name: Deploy .#docs to Github Pages
+name: nix flake check
 
 on:
   push:
