@@ -11,6 +11,8 @@
       url = "github:kolloch/n2c-mod";
       # url = "./..";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.devshell.follows = "devshell";
     };
 
     # Development
