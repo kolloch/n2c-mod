@@ -59,5 +59,9 @@
       debug = true;
 
       flake.flakeModules = exportedModule;
+      flake.templates.default = {
+        path = ./template;
+        description = "Some example images with n2c-mod.";
+      };
     });
 }
