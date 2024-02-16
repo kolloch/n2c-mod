@@ -1,9 +1,9 @@
 {
   perSystem = {pkgs, ...}: {
     _file = ./basic.nix;
-    n2c.images.basic = {
+    n2c.images.basic = {imagePkgs, ...}: {
       imageConfig = {
-        entrypoint = ["${pkgs.hello}/bin/hello"];
+        entrypoint = ["${imagePkgs.hello}/bin/hello"];
       };
     };
   };

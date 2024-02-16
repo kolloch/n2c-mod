@@ -1,14 +1,21 @@
-{ flake-parts-lib, nix2container, lib, ...}:
+{ flake-parts-lib, nixpkgs, nix2container, lib, ...}:
 let
   imagesModule = {pkgs, system, ...}: {
     _file = ./n2c-base.nix;
-    options.images = lib.mkOption {
+    options.images = let
+      skopeo-nix2container = nix2container.packages.${system}.skopeo-nix2container;
+      imageSystem = 
+        if (lib.hasSuffix "-darwin" system)
+        then "${lib.removeSuffix "-darwin" system}-linux"
+        else system;
+      imagePkgs = nixpkgs.legacyPackages.${imageSystem};
+    in lib.mkOption {
       type = lib.types.lazyAttrsOf (
         lib.types.submoduleWith {
           modules = [
             {
               config._module.args = {
-                inherit nix2container system pkgs;
+                inherit nix2container system pkgs skopeo-nix2container imageSystem imagePkgs;
               };
             }
             ./images/buildImage.nix
