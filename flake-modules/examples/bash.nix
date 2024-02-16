@@ -1,5 +1,9 @@
 {
-  perSystem = {pkgs, lib, ...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     n2c.images.bash = {imagePkgs, ...}: {
       imageConfig = {
         cmd = ["/bin/bash"];
@@ -12,8 +16,8 @@
         # in both / and /nix/store.
         (imagePkgs.buildEnv {
           name = "root";
-          paths = [ imagePkgs.bashInteractive imagePkgs.coreutils ];
-          pathsToLink = [ "/bin" ];
+          paths = [imagePkgs.bashInteractive imagePkgs.coreutils];
+          pathsToLink = ["/bin"];
         })
       ];
     };

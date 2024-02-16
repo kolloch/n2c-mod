@@ -1,25 +1,34 @@
 {pkgs, ...}: {
-  perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
+  perSystem = {
+    config,
+    self',
+    inputs',
+    pkgs,
+    lib,
+    system,
+    ...
+  }: {
     checks = config.packages;
 
-    packages.docs-src = let 
-        cleanedSource = pkgs.nix-gitignore.gitignoreSource [] ./.;
-        frontMatter = ''
+    packages.docs-src = let
+      cleanedSource = pkgs.nix-gitignore.gitignoreSource [] ./.;
+      frontMatter = ''
         ---
         title: Options Reference
         ---
-        '';
-      in pkgs.runCommand "docs-src" {} ''
-          set -x
-          mkdir -p "$out/src/content/docs/reference"
-          cp -R ${cleanedSource}/* $out
-          md="$out/src/content/docs/reference/options.md"
-          rm -fv "$md"
-          {
-            echo ${lib.escapeShellArg frontMatter}
-            cat ${config.packages.module-docs-md}
-          } >$md
-        '';
+      '';
+    in
+      pkgs.runCommand "docs-src" {} ''
+        set -x
+        mkdir -p "$out/src/content/docs/reference"
+        cp -R ${cleanedSource}/* $out
+        md="$out/src/content/docs/reference/options.md"
+        rm -fv "$md"
+        {
+          echo ${lib.escapeShellArg frontMatter}
+          cat ${config.packages.module-docs-md}
+        } >$md
+      '';
 
     packages.docs = pkgs.buildNpmPackage {
       pname = "docs";

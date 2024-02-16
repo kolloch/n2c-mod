@@ -1,12 +1,15 @@
-{ inputs, ...}: {
+{inputs, ...}: {
   imports = [
     inputs.devshell.flakeModule
   ];
 
-  perSystem = { config, ... }: {
+  perSystem = {config, ...}: {
     devshells.default = {
       commands = [
-        { package = config.packages.nodejs; category = "docs"; }
+        {
+          package = config.packages.nodejs;
+          category = "docs";
+        }
       ];
     };
   };

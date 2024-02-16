@@ -1,14 +1,22 @@
-{name, pkgs, lib, nix2container, config, system, imageSystem, ...}: 
-let
+{
+  name,
+  pkgs,
+  lib,
+  nix2container,
+  config,
+  system,
+  imageSystem,
+  ...
+}: let
   imageConfig._file = ./buildImage.nix;
   imageConfig.options = {
     raw = lib.mkOption {
-      description = ''The attrs as passed to nix2container.buildImage
-        as `config` arguement.
+      description = ''        The attrs as passed to nix2container.buildImage
+                as `config` arguement.
 
-        Everything in the OCI ImageConfig should be allowed:
+                Everything in the OCI ImageConfig should be allowed:
 
-        https://github.com/opencontainers/image-spec/blob/8b9d41f48198a7d6d0a5c1a12dc2d1f7f47fc97f/specs-go/v1/config.go#L23
+                https://github.com/opencontainers/image-spec/blob/8b9d41f48198a7d6d0a5c1a12dc2d1f7f47fc97f/specs-go/v1/config.go#L23
       '';
       type = lib.types.lazyAttrsOf lib.types.unspecified;
     };
@@ -54,7 +62,7 @@ in {
       type = lib.types.listOf lib.types.package;
       description = ''
         A list of derivations copied in the image root directory.
-        
+
         Store path prefixes /nix/store/hash-path are removed, in order to relocate them at the image /.
       '';
       default = [];

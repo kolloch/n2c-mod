@@ -1,5 +1,5 @@
 {
-  perSystem = { pkgs, ... }: {
+  perSystem = {pkgs, ...}: {
     packages.nodejs = pkgs.nodejs_21;
   };
 }

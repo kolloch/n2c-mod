@@ -19,19 +19,27 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  
-  outputs = inputs@{ self, nixpkgs, flake-parts, devshell, nix2container }: 
-    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }:
-    let
-      exportedModule.default = 
-        flake-parts-lib.importApply 
-          ./flake-modules/exported/n2c.nix 
-          { 
-            inherit withSystem nix2container; 
-          };
-    in 
-    {
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    flake-parts,
+    devshell,
+    nix2container,
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} ({
+      withSystem,
+      flake-parts-lib,
+      ...
+    }: let
+      exportedModule.default =
+        flake-parts-lib.importApply
+        ./flake-modules/exported/n2c.nix
+        {
+          inherit withSystem nix2container;
+        };
+    in {
+      systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
 
       imports = [
         ./flake-modules/nodejs-packages.nix

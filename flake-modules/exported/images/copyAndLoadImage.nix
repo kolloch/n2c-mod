@@ -1,5 +1,14 @@
-{name, pkgs, lib, nix2container, config, system, skopeo-nix2container, imageSystem, ...}: 
 {
+  name,
+  pkgs,
+  lib,
+  nix2container,
+  config,
+  system,
+  skopeo-nix2container,
+  imageSystem,
+  ...
+}: {
   _file = ./copyAndLoadImage.nix;
 
   options = {
@@ -14,7 +23,9 @@
     };
   };
 
-  config = let image = config.result; in {
+  config = let
+    image = config.result;
+  in {
     load = {
       inDocker = pkgs.writeShellScriptBin "copy-to-docker-daemon" ''
         echo "Load image in docker: ${image.imageName}:${image.imageTag}"

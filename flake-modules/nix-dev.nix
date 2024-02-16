@@ -4,7 +4,10 @@
 
     devshells.default = {
       commands = [
-        { package = pkgs.alejandra; category = "nix"; }
+        {
+          package = pkgs.alejandra;
+          category = "nix";
+        }
       ];
     };
   };
