@@ -19,6 +19,7 @@ let
               };
             }
             ./images/buildImage.nix
+            ./images/copyAndLoadImage.nix
           ];
         }
       );
