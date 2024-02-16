@@ -1,4 +1,4 @@
-{ withSystem, ...}:
+{ ...}:
 { flake-parts-lib, lib, ...}:
 flake-parts-lib.mkTransposedPerSystemModule {
   name = "n2c";

@@ -29,6 +29,7 @@
       imports = [
         ./flake-modules/nodejs-packages.nix
         ./flake-modules/nodejs-devshell.nix
+        ./flake-modules/module-docs.nix
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/exported/n2c-test.nix
