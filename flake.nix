@@ -15,17 +15,25 @@
     };
   };
   
-  outputs = inputs@{ self, nixpkgs, flake-parts, devshell }: flake-parts.lib.mkFlake { inherit inputs; } {
-    systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
+  outputs = inputs@{ self, nixpkgs, flake-parts, devshell }: 
+    flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, flake-parts-lib, ... }:
+    let
+      exportedModule.default = 
+        flake-parts-lib.importApply 
+          ./flake-modules/exported/n2c.nix 
+          { inherit withSystem; };
+    in 
+    {
+      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
 
-    imports = [
-      ./flake-modules/nodejs-packages.nix
-      ./flake-modules/nodejs-devshell.nix
-      ./docs/flake-module.nix
-    ];
+      imports = [
+        ./flake-modules/nodejs-packages.nix
+        ./flake-modules/nodejs-devshell.nix
+        ./docs/flake-module.nix
+        exportedModule.default
+        ./flake-modules/exported/n2c-test.nix
+      ];
 
-    flake = {
-      # your existing definitions before using flake-parts...
-    };
-  };
+      debug = true;
+    });
 }
