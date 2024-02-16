@@ -37,6 +37,7 @@
         ./flake-modules/nodejs-packages.nix
         ./flake-modules/nodejs-devshell.nix
         ./flake-modules/module-docs.nix
+        ./flake-modules/nix-dev.nix
         ./docs/flake-module.nix
         exportedModule.default
         ./flake-modules/n2c-export-json.nix
