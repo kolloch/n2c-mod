@@ -12,9 +12,9 @@
       in pkgs.runCommand "docs-src" {} ''
           set -x
           mkdir -p "$out/src/content/docs/reference"
-          cp -vR ${cleanedSource}/* $out
-          find $out
+          cp -R ${cleanedSource}/* $out
           md="$out/src/content/docs/reference/options.md"
+          rm -fv "$md"
           {
             echo ${lib.escapeShellArg frontMatter}
             cat ${config.packages.module-docs-md}
