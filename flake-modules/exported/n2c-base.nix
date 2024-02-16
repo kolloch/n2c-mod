@@ -30,11 +30,6 @@ let
       default = {};
     };
   };
-  options.checkAll = lib.mkOption {
-    description = ''Whether to add all image, ... builds to the checks of this flake.'';
-    type = lib.types.bool;
-    default = true;
-  };
 in
 {
   options = {
@@ -43,7 +38,6 @@ in
         type = lib.types.submoduleWith {
           modules = [ 
             {
-              inherit options;
               config._module.args = {
                 inherit nix2container system pkgs;
               };
