@@ -2,7 +2,7 @@
 title: "n2c-mod"description: "Build docker/OCI containers with nix2container with flake module options validation."
 template: splash
 hero:
-  tagline: Build OCI/docker containers with nix2container with flake module options validation.
+  tagline: Build slim docker containers reproducibly with nix using the huge nixpkgs package collection.
   actions:
     - text: Getting Started
       link: /n2c-mod/guides/getting_started/
@@ -15,13 +15,36 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Further references
+## Example
+
+```nix
+{
+  # Provide builders for all systems of your flake
+  perSystem = {
+    # `imageSystem`, `imagePkgs` automatically refer to the target architecture 
+    # of your image.
+    # By default, the corresponding Linux platform for Darwin/Mac OS.
+    n2c.images.basic = {imageSystem, imagePkgs, ...}: {
+      imageConfig = {
+        # As usual with nix, all dependencies are included automatically.
+        # But you can also explicitly decide what to put into which layer!
+        entrypoint = ["${imagePkgs.hello}/bin/hello"];
+      };
+    };
+  };
+}
+```
+
+## Built on top of
 
 <CardGrid >
-	<Card title="Read up on flake-parts" icon="open-book">
+	<Card title="flake-parts" icon="open-book">
 		n2c-mod is built as a flake module using [flake.parts](https://flake.parts).
 	</Card>
-	<Card title="Read up on nix2container" icon="open-book">
+	<Card title="nix2container" icon="open-book">
 		n2c-mod provides an interface for [nix2container](https://github.com/nlewo/nix2container).
 	</Card>
+  <Card title="nix" icon="open-book">
+    And of course, n2c-mod uses [nix/nixpkgs](https://nixos.org/).
+  </Card>
 </CardGrid>
