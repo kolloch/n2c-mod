@@ -13,7 +13,7 @@ hero:
       icon: right-arrow
 ---
 
-import { Aside, Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## Implementation Status
 
@@ -39,23 +39,10 @@ Only very few options of nix2container are currently supported.
 }
 ```
 
-### Run
-
-Build and run it in docker:
-
-```console
-❯ nix run .\#n2c.aarch64-darwin.images.basic.do.run.interactivelyInDocker
-❯ nix run .\#n2c.x86_64-linux.images.basic.do.run.interactivelyInDocker
-... other architectures ...
-```
-
-Or podman:
-
-```console
-❯ nix run .\#n2c.aarch64-darwin.images.basic.do.run.interactivelyWithPodman
-❯ nix run .\#n2c.x86_64-linux.images.basic.do.run.interactivelyWithPodman
-... other architectures ...
-```
+:::note
+See [Defining/Using an Image](guides/10_define_run_image/) for an explanation
+and instructions for building and running this container!
+:::
 
 ## Built on top of
 
