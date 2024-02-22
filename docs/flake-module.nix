@@ -52,7 +52,7 @@
         runHook postInstall
       '';
 
-      npmDepsHash = "sha256-iyz7+GeVYNDa0cLlz8PGmTNAQVetnt87ndfP0vUjxLw=";
+      npmDepsHash = "sha256-C1uqL7dvxZOgc2vTS1WoDiq7IOxcf6XBmlmgKhSUhjc=";
     };
   };
 }
