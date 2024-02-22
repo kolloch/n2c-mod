@@ -50,6 +50,7 @@
       imports = [
         inputs.flake-parts.flakeModules.flakeModules
 
+        ./flake-modules/n2c-checks.nix
         ./flake-modules/nodejs-packages.nix
         ./flake-modules/nodejs-devshell.nix
         ./flake-modules/module-docs.nix

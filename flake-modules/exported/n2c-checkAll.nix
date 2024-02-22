@@ -1,19 +1,60 @@
 {lib, ...}: {
   perSystem = {config, ...}: {
-    options.n2c.checkAll = lib.mkOption {
-      description = ''Whether to add all image, ... builds to the checks of this flake.'';
-      type = lib.types.bool;
-      default = true;
+    options.n2c.check = lib.mkOption {
+      description = ''Whether to image builds, ... to the checks of this flake.'';
+      default = {};
+      type = lib.types.submoduleWith {
+        modules = [
+          {
+            options.images = lib.mkOption {
+              description = ''Whether to add image builds to the checks of this flake.'';
+              type = lib.types.bool;
+              default = true;
+            };
+            options.imageActions = lib.mkOption {
+              description = ''Whether to add image actions (from `do`) to the checks of this flake.'';
+              type = lib.types.bool;
+              default = false;
+            };
+          }
+        ];
+      };
     };
 
-    config = lib.mkIf config.n2c.checkAll {
-      checks = let
-        imageToCheck = name: value:
+    config.checks = let
+      imageToResultCheck = name: value:
+        lib.nameValuePair
+        "n2c-image-${name}"
+        value.result;
+
+      buildImageChecks = lib.mapAttrsToList imageToResultCheck config.n2c.images;
+
+      imageActionsForImage = imageName: value: let
+        actionToCheck = imageName: value: category: action:
           lib.nameValuePair
-          "n2c-image-${name}"
-          value.result;
+          "n2c-image-${imageName}-${category}-${action}"
+          value.do.${category}.${action};
+        buildActions = category: actions:
+          lib.mapAttrsToList (
+            action: package:
+              actionToCheck imageName value category action
+          )
+          actions;
+        categoryActions =
+          lib.mapAttrsToList buildActions value.do;
       in
-        lib.mapAttrs' imageToCheck config.n2c.images;
-    };
+        lib.lists.flatten categoryActions;
+
+      imageActions = let
+        actionsPerImage =
+          lib.mapAttrsToList imageActionsForImage config.n2c.images;
+      in
+        lib.lists.flatten actionsPerImage;
+
+      checks =
+        (lib.optionals config.n2c.check.images buildImageChecks)
+        ++ (lib.optionals config.n2c.check.imageActions imageActions);
+    in
+      lib.listToAttrs checks;
   };
 }

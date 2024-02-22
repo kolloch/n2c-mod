@@ -29,13 +29,13 @@
                 };
               }
               ./images/buildImage.nix
-              ./images/copyAndLoadImage.nix
+              ./images/do.nix
             ];
           }
         );
         description = ''
-          Exposes options for invoking
-          nix2container.buildImage.
+          Exposes options for invoking nix2container.buildImage
+          and make composing/copying/running these images easy.
         '';
         default = {};
       };
