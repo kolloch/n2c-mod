@@ -1,14 +1,23 @@
 ---
-title: Define/Run Image
+title: Defining/Using an Image
 description: Define a basic image, build, and run it.
 ---
 
-You can define a simple image by simply referencing a package
-from the entry point. The referenced packages will automatically
+Get started with a minimal "Hello world" example!
+
+## Image Config
+
+:::tip[Already in starter template!]
+The [default template](../00_getting_started/) already includes this example 
+and references it in its `flake.nix`.
+:::
+
+You can define a self-contained image that runs a command by referencing the
+corresponding package from the entry point. The referenced packages will automatically
 end up in the image!
 
 ```nix
-# ./flake-modules/basic-image-flake-module.nix
+# ./flake-modules/images/basic.nix
 {
   # Provide builders for all systems of your flake
   perSystem = {
@@ -26,7 +35,7 @@ end up in the image!
 }
 ```
 
-## Import in your flake.nix
+## Import Config in `flake.nix`
 
 Make sure that you also add this flake module to the imports in your flake.nix:
 
@@ -35,7 +44,7 @@ Make sure that you also add this flake module to the imports in your flake.nix:
     # ... 
     imports = [
         # ...
-        ./flake-modules/basic-image-flake-module.nix
+        ./flake-modules/images/basic.nix
     ];
 }
 ```
@@ -43,7 +52,7 @@ Make sure that you also add this flake module to the imports in your flake.nix:
 And add it to version control with `git add` if you use `git` so that it is
 picked up.
 
-## Building your image
+## Build your image
 
 By default, all image builds are added to the `checks` of the flake. Therefore,
 you'll check whether your image builds (and potentially other things in your flake)
