@@ -1,26 +1,46 @@
-{lib, ...}: {
-  perSystem = {config, ...}: {
-    options.n2c.check = lib.mkOption {
-      description = ''Whether to image builds, ... to the checks of this flake.'';
-      default = {};
+{
+  lib,
+  config,
+  flake-parts-lib,
+  ...
+} @ global: {
+  options.perSystem = flake-parts-lib.mkPerSystemOption ({
+    config,
+    pkgs,
+    system,
+    ...
+  }: {
+    options.n2c = lib.mkOption {
       type = lib.types.submoduleWith {
         modules = [
           {
-            options.images = lib.mkOption {
-              description = ''Whether to add image builds to the checks of this flake.'';
-              type = lib.types.bool;
-              default = true;
-            };
-            options.imageActions = lib.mkOption {
-              description = ''Whether to add image actions (from `do`) to the checks of this flake.'';
-              type = lib.types.bool;
-              default = false;
+            options.check = lib.mkOption {
+              description = ''Whether to image builds, ... to the checks of this flake.'';
+              default = {};
+              type = lib.types.submoduleWith {
+                modules = [
+                  {
+                    options.images = lib.mkOption {
+                      description = ''Whether to add image builds to the checks of this flake.'';
+                      type = lib.types.bool;
+                      default = true;
+                    };
+                    options.imageActions = lib.mkOption {
+                      description = ''Whether to add image actions (from `do`) to the checks of this flake.'';
+                      type = lib.types.bool;
+                      default = false;
+                    };
+                  }
+                ];
+              };
             };
           }
         ];
       };
     };
+  });
 
+  config.perSystem = {config, ...}: {
     config.checks = let
       imageToResultCheck = name: value:
         lib.nameValuePair
@@ -35,7 +55,8 @@
           "n2c-image-${imageName}-${category}-${action}"
           value.do.${category}.${action};
         buildActions = category: actions:
-          lib.mapAttrsToList (
+          lib.mapAttrsToList
+          (
             action: package:
               actionToCheck imageName value category action
           )
